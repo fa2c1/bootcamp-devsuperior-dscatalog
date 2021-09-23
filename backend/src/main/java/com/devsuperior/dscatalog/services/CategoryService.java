@@ -37,6 +37,7 @@ public class CategoryService {
         return new CategoryDTO(entity);
     }
 
+    @Transactional
     public CategoryDTO insert(CategoryDTO dto) {
         Category entity = new Category();
         entity.setName(dto.getName());
