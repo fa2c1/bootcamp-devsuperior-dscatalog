@@ -1,4 +1,4 @@
-package com.devsuperior.dscatalog.resourses;
+package com.devsuperior.dscatalog.resources;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -15,7 +15,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.List;
 
 import com.devsuperior.dscatalog.dto.ProductDTO;
-import com.devsuperior.dscatalog.resources.ProductResource;
 import com.devsuperior.dscatalog.services.ProductService;
 import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourseNotFondException;
@@ -77,7 +76,7 @@ public class ProductResourceTests {
     }
 
     @Test
-    public void sindAllShouldReturnPage() throws Exception {
+    public void findAllShouldReturnPage() throws Exception {
         ResultActions result = mockMvc.perform(get("/products").accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isOk());
     }
