@@ -1,6 +1,5 @@
 package com.devsuperior.dscatalog.entities;
 
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.HashSet;
@@ -27,7 +26,7 @@ import javax.persistence.JoinTable;
 
 @Entity
 @Table(name = "tb_user")
-public class User implements UserDetails, Serializable {
+public class User implements UserDetails {
     private static final long serialVersionUID = 1l;
 
     @Id
