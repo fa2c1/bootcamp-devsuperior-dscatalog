@@ -98,7 +98,7 @@ public class Product implements Serializable {
         this.date = date;
     }
 
-    public Set<Category> geCategories() {
+    public Set<Category> getCategories() {
         return categories;
     }
 
