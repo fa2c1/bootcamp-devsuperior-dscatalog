@@ -43,18 +43,20 @@ public class ProductResourceIntegration {
 
     @BeforeEach
     void setUp() throws Exception {
-        username = "maria@gmail.com";
-        password = "123456";
-
         existingId = 1L;
         nonExistingId = 1000L;
         countTotalProducts = 25L;
+
+        username = "maria@gmail.com";
+        password = "123456";
     }
 
     @Test
     public void findAllShouldReturnSortedPageWhenSortByName() throws Exception {
-        ResultActions result = mockMvc
-                .perform(get("/products?page=0&size=5&sort=name,asc", existingId).accept(MediaType.APPLICATION_JSON));
+
+        ResultActions result = mockMvc.perform(get("/products?page=0&size=12&sort=name,asc")
+                .accept(MediaType.APPLICATION_JSON));
+
         result.andExpect(status().isOk());
         result.andExpect(jsonPath("$.totalElements").value(countTotalProducts));
         result.andExpect(jsonPath("$.content").exists());
@@ -64,7 +66,7 @@ public class ProductResourceIntegration {
     }
 
     @Test
-    public void updateShouldReturnProductDTOWhenIdExixts() throws Exception {
+    public void updateShouldReturnProductDTOWhenIdExists() throws Exception {
 
         String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
 
@@ -74,9 +76,12 @@ public class ProductResourceIntegration {
         String expectedName = productDTO.getName();
         String expectedDescription = productDTO.getDescription();
 
-        ResultActions result = mockMvc.perform(
-                put("/products/{id}", existingId).header("Autorization", "Bearer" + accessToken).content(jsonBody)
-                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+        ResultActions result = mockMvc.perform(put("/products/{id}", existingId)
+                .header("Authorization", "Bearer " + accessToken)
+                .content(jsonBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
         result.andExpect(status().isOk());
         result.andExpect(jsonPath("$.id").value(existingId));
         result.andExpect(jsonPath("$.name").value(expectedName));
@@ -84,16 +89,19 @@ public class ProductResourceIntegration {
     }
 
     @Test
-    public void updateShouldReturnNotFoundWhenIdDoesNotExixt() throws Exception {
+    public void updateShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
 
         String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
 
         ProductDTO productDTO = Factory.createProductDTO();
         String jsonBody = objectMapper.writeValueAsString(productDTO);
 
-        ResultActions result = mockMvc.perform(
-                put("/products/{id}", nonExistingId).header("Autorization", "Bearer" + accessToken).content(jsonBody)
-                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+        ResultActions result = mockMvc.perform(put("/products/{id}", nonExistingId)
+                .header("Authorization", "Bearer " + accessToken)
+                .content(jsonBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
         result.andExpect(status().isNotFound());
     }
 }
