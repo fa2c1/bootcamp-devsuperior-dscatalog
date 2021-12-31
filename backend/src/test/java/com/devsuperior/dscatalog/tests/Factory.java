@@ -10,13 +10,13 @@ public class Factory {
     public static Product createProduct() {
         Product product = new Product(1L, "Phone", "Good Phone", 800.00, "https://img.com/img.png",
                 Instant.parse("2020-10-20T03:00:00z"));
-        product.geCategories().add(createCategory());
+        product.getCategories().add(createCategory());
         return product;
     }
 
     public static ProductDTO createProductDTO() {
         Product product = createProduct();
-        return new ProductDTO(product, product.geCategories());
+        return new ProductDTO(product, product.getCategories());
     }
 
     public static Category createCategory() {
