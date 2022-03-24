@@ -1,6 +1,10 @@
 import './styles.css';
 
-function ProductPrice() {
+type Props = {
+    price: number;
+}
+
+function ProductPrice({ price } : Props) {
     return (
         <div className='product-price-countainer'>
             <span>R$</span>
