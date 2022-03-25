@@ -17,7 +17,9 @@ function Navbar() {
                     aria-controls="dscatalog-navbar"
                     aria-expanded="false"
                     aria-label="Toggle navigation"
-                ></button>
+                >
+                    <span className="navbar-toggler-icon"></span>
+                </button>
                 <div className="collapse navbar-collapse" id="dscatalog-navbar">
                     <ul className="navbar-nav offset-md-2 main-menu">
                         <li>
