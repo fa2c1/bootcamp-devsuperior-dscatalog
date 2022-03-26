@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Product } from "types/product";
 
 import axios from 'axios';
+import CardLoader from "./CardLoader";
 import ProductCard from "components/ProductCard";
 import Pagination from "components/Pagination";
 
@@ -14,6 +15,7 @@ import "./styles.css"
 function Catalog() {
 
     const [page, setPage] = useState<SpringPage<Product>>();
+    const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
 
@@ -26,8 +28,11 @@ function Catalog() {
             },
         };
 
+        setLoading(true);
         axios(params).then(response => {
             setPage(response.data);
+        }).finally(() => {
+            setLoading(false)
         });
 
     }, []);
@@ -38,13 +43,14 @@ function Catalog() {
                 <h1>Catalago de Produtos</h1>
             </div>
             <div className="row">
-                {page?.content.map(product => (
+                {isLoading ? <CardLoader /> : (
+                    page?.content.map(product => (
                     <div className="col-sm-6 col-lg-4 col-xl-3" key={product.id}>
                         <Link to="/products/1">
                             <ProductCard product={product}/>
                         </Link>
                     </div>
-                ))}
+                )))}
             </div>
             <div className="row">
                 <Pagination />
