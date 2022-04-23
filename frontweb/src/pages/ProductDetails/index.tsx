@@ -4,12 +4,12 @@ import { Link, useParams } from 'react-router-dom';
 import { Product } from 'types/product';
 import { BASE_URL } from 'util/requests';
 
-import './styles.css';
-
 import axios from 'axios';
-import ProductInfoLoader from './ProductInfoLoader';
 import ProductDetailsLoader from './ProductDetailsLoader';
+import ProductInfoLoader from './ProductInfoLoader';
 import ProductPrice from 'components/ProductPrice';
+
+import './styles.css';
 
 type UrlParams = {
     productId: string;
