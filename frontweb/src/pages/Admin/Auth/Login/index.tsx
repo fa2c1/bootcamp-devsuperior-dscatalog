@@ -14,7 +14,7 @@ type FormData = {
 
 function Login() {
     const [hasError, setHasError] = useState(false);
-    const { register, handleSubmit } = useForm<FormData>();
+    const { register, handleSubmit, formState: {errors} } = useForm<FormData>();
 
     const onSubmit = (formData : FormData) => {
         requestBackendLogin(formData)
@@ -38,10 +38,12 @@ function Login() {
             }
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-4">
-                    <input {...register("username")} type="text" className="form-control base-input" placeholder="Email" name="username" />
+                    <input {...register("username", {required: 'Campo Obrigatório', pattern: {value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: 'E-mail invalido'}})} type="text" className="form-control base-input" placeholder="Email" name="username" />
+                    <div className='invalid-feedback d-block'>{errors.username?.message}</div>
                 </div>
                 <div className="mb-2">
-                    <input {...register("password")} type="password" className="form-control base-input " placeholder="Password" name="password" />
+                    <input {...register("password", {required: 'Campo Obrigatório'})} type="password" className="form-control base-input " placeholder="Password" name="password" />
+                    <div className='invalid-feedback d-block'>{errors.password?.message}</div>
                 </div>
                     <Link to="/admin/auth/recover" className="login-link-recover">Esqueci a senha</Link>
                 <div className="login-submit">
