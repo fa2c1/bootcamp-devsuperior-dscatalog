@@ -1,6 +1,15 @@
 import axios, { AxiosRequestConfig } from "axios";
+import jwtDecode from "jwt-decode";
 import qs from "qs";
 import history from './history';
+
+type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
+
+type TokenData = {
+    exp: number;
+    user_name: string;
+    authorities: Role[];
+}
 
 type LoginResponse = {
     access_token: string;
@@ -55,21 +64,34 @@ export const getAuthData = () => {
     return JSON.parse(str) as LoginResponse;
 }
 
+export const getTokenData = () : TokenData | undefined => {
+    try{
+        return jwtDecode(getAuthData().access_token) as TokenData;
+    }catch (error){
+        return undefined;
+    }
+}
+
+export const isAuthenticated = () : boolean => {
+    const tokenData = getTokenData();
+    return (tokenData && tokenData.exp * 1000 > Date.now()) ? true : false;
+}
+
 axios.interceptors.request.use(function (config) {
-    //
+    // Create function Logic
     return config;
   }, function (error) {
-    //
+    // Create function Logic
     return Promise.reject(error);
   });
 
 axios.interceptors.response.use(function (response) {
-    //
+    // Create function Logic
     return response;
   }, function (error) {
       if(error.response.status === 401 || error.response.status === 403){
           history.push('/admin/auth');
       }
-    //
+    // Create function Logic
     return Promise.reject(error);
   });
