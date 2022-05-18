@@ -1,4 +1,4 @@
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { AuthContext } from 'AuthContext';
@@ -12,7 +12,13 @@ type FormData = {
     password: string;
 }
 
+type LocationState = {
+    from: string;
+}
+
 function Login() {
+    const location = useLocation<LocationState>();
+    const { from } = location.state || { from: { pathname: '/admin' }};
     const { setAuthContextData } = useContext(AuthContext);
     const [hasError, setHasError] = useState(false);
     const { register, handleSubmit, formState: {errors} } = useForm<FormData>();
@@ -27,7 +33,7 @@ function Login() {
                 authenticated: true,
                 tokenData: getTokenData()
             });
-            history.push('/admin');
+            history.replace(from);
         })
         .catch(error => {
             setHasError(true);

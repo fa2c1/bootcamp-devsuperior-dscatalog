@@ -8,8 +8,8 @@ type Props = {
 
 function PrivateRoute ({ children, path } : Props) {
     return(
-        <Route path={path} render={() => 
-        isAuthenticated() ? children : <Redirect to ="/admin/auth/login"/>}/>
+        <Route path={path} render={({location}) => 
+        isAuthenticated() ? children : <Redirect to ={{pathname: "/admin/auth/login", state: {from: location}}}/>}/>
     );
 }
 
